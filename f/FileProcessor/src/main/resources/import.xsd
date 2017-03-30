@@ -1,0 +1,675 @@
+<!-- <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"> -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+	xmlns:annox="http://annox.dev.java.net" >
+
+	<xs:element name="Trade">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SecurityExecution" type="securityExecution"
+					minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="SecurityAllocation" type="securityAllocation"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="SecurityExecution" type="securityExecution" />
+	<xs:element name="SecurityAllocation" type="securityAllocation" />
+
+	<xs:complexType name="securityExecution">
+		<xs:sequence>
+			<xs:group ref="init" />
+
+			<xs:element name="ExecutionIdentifier" type="xs:string" />
+
+			<xs:element name="ExecutionDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref="tradeAndSecurity" />
+						<xs:group ref="executionAmounts" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:group ref="related" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="securityAllocation">
+		<xs:sequence>
+			<xs:group ref="init" />
+
+			<xs:element name="AllocationIdentifier" type="xs:string"
+				minOccurs="0" />
+
+			<xs:element name="ExecutionIdentifier" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="ExecutionDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref="tradeAndSecurity" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="AllocationDetails">
+				<xs:complexType>
+					<xs:sequence>
+
+						<xs:element name="StepOutBroker" type="stepout"
+							minOccurs="0" />
+						<xs:element name="BrokerOfCredit" type="counterparty"
+							minOccurs="0" />
+						<xs:element name="ClearingBroker" type="counterparty"
+							minOccurs="0" />
+
+						<xs:element name="Portfolio">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Reference" type="xs:string" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Custodian" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Reference" type="xs:string" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+
+						<xs:element name="Alert" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AlertCountryCode" type="xs:string" />
+									<xs:element name="AlertMethodType" type="xs:string" />
+									<xs:element name="AlertSecurityType" type="xs:string" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PlaceOfSafekeeping" type="xs:string"
+							minOccurs="0" />
+						<xs:element name="FundCurrency" type="xs:string"
+							minOccurs="0" />
+
+						<xs:group ref="allocationAmounts" minOccurs="0" />
+
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<!--Alert messages here... -->
+
+			<xs:group ref="related" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:group name="init">
+		<xs:sequence>
+			<xs:element name="Function" type="function" />
+
+			<xs:element name="OrderManagementSystem">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Reference" type="xs:string"
+							minOccurs="0" />
+						<xs:element name="TradeIdentifier" type="xs:string">
+
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="tradeAndSecurity">
+		<xs:sequence>
+			<xs:element name="ExecutingBroker" type="counterparty" />
+
+			<xs:element name="BuySell" type="buySell" />
+			<xs:element name="LongShort" type="longShort" minOccurs="0" />
+			<xs:element name="ConfirmationVenue" type="ConfVenue"
+				minOccurs="0" />
+			<xs:element name="Repurchase" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RepurchaseType" type="repurchasetype"
+							minOccurs="0" />
+						<xs:element name="DeliveryMethod" type="deliverymethod"
+							minOccurs="0" />
+						<xs:element name="Leg" type="leg" minOccurs="0" />
+						<xs:element name="RateType" type="ratetype" minOccurs="0" />
+						<xs:element name="ConfirmPurpose" type="confirmpurpose"
+							minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Security">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Type" type="xs:string">
+							<xs:annotation>
+								<xs:appinfo>
+									<annox:annotate>ddddedd
+									</annox:annotate>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+
+						<xs:element name="Description" type="xs:string"
+							minOccurs="0" />
+						<xs:element name="References">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Reference" type="securityReferenceType"
+										maxOccurs="unbounded" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="IssueDate" type="xs:date" minOccurs="0" />
+						<xs:element name="WhenIssued" type="yesNo" minOccurs="0" />
+						<xs:element name="MaturityDate" type="xs:date"
+							minOccurs="0" />
+						<xs:element name="CouponRate" type="xs:decimal"
+							minOccurs="0" />
+						<xs:element name="Yield" type="xs:decimal" minOccurs="0" />
+						<xs:element name="FinalCoupon" type="yesNo" minOccurs="0" />
+						<xs:element name="CurrentFactor" type="positiveDecimal"
+							minOccurs="0" />
+						<xs:element name="FinalFactor" type="yesNo" minOccurs="0" />
+						<xs:element name="PoolName" type="xs:string" minOccurs="0" />
+						<xs:element name="DiscountRate" type="xs:decimal"
+							minOccurs="0" />
+						<xs:element name="Stipulations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MaxNumberOfPools" type="xs:string"
+										minOccurs="0" />
+									<xs:element name="OnePoolPerPiece" type="yesNo"
+										minOccurs="0" />
+									<xs:element name="OnePoolPerMillion" type="yesNo"
+										minOccurs="0" />
+									<xs:element name="Other" type="xs:string" minOccurs="0" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BargainCondition" type="bargainCondition"
+							minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Derivative" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ExchangeTraded" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Exchange" type="xs:string"
+										minOccurs="0" />
+									<xs:element name="OptionType" type="optiontype"
+										minOccurs="0" />
+									<xs:element name="ExpirationDate" type="xs:date"
+										minOccurs="0" />
+									<xs:element name="DeliveryType" type="deliverytype"
+										minOccurs="0" />
+									<xs:element name="PremiumAmount" type="xs:decimal"
+										minOccurs="0" />
+									<xs:element name="StrikePrice" type="xs:decimal"
+										minOccurs="0" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Price" type="price" />
+			<xs:element name="TradeDate" type="xs:date" />
+			<xs:element name="TradeTime" type="xs:time" minOccurs="0" />
+			<xs:element name="SettlementDate" type="xs:date" />
+
+			<xs:element name="Market" type="xs:string" />
+			<xs:element name="FreeOfPayment" type="yesNo" minOccurs="0" />
+
+			<xs:element name="NumberOfDaysAccrued" type="xs:integer"
+				minOccurs="0" />
+
+			<xs:sequence>
+				<xs:element name="Trader" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Desk" type="xs:string" minOccurs="0" />
+							<xs:element name="Name" type="xs:string" minOccurs="0" />
+							<xs:element name="Location" type="xs:string"
+								minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="allocationAmounts">
+		<xs:sequence>
+			<xs:group ref="executionAmounts" />
+			<xs:element name="SettlementAmount" type="amount"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="executionAmounts">
+		<xs:sequence>
+			<xs:element name="Quantity" type="quantityType" />
+			<xs:element name="CurrentFaceValue" type="positiveDecimal"
+				minOccurs="0" />
+			<xs:element name="UnitisedValue" type="positiveDecimal"
+				minOccurs="0" />
+			<xs:element name="GrossAmount" type="amount" />
+			<xs:group ref="charges" />
+			<xs:group ref="commissions" />
+			<xs:element name="InterestAmount" type="amount" minOccurs="0" />
+			<xs:element name="NetAmount" type="amount" minOccurs="0" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="charges">
+		<xs:sequence>
+			<xs:element name="Charges" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Charge" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="amount">
+										<xs:attribute name="Type" use="required">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														The type of a charge.
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Issuer" />
+													<xs:enumeration value="LocalFee" />
+													<xs:enumeration value="LocalTax" />
+													<xs:enumeration value="Other" />
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="commissions">
+		<xs:sequence>
+			<xs:element name="Commissions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Commission" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="commissionamount">
+										<xs:attribute name="Type" use="required">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														The type of a commission.
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Broker" />
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="related">
+		<xs:sequence>
+			<xs:element name="Related" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Rebooked" type="yesNo" />
+						<xs:element name="RebookedIdentifier" type="xs:string"
+							minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<!--types -->
+
+	<xs:simpleType name="function">
+		<xs:annotation>
+			<xs:documentation>
+				Function of the message
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="New" />
+			<xs:enumeration value="Cancel" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="counterparty">
+		<xs:sequence>
+			<xs:element name="Reference" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="stepout">
+		<xs:sequence>
+			<xs:element name="Reference" type="xs:string" />
+			<xs:element name="Comment" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="price">
+		<xs:annotation>
+			<xs:documentation>
+				An amount.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" />
+			<xs:element name="Currency" type="currency" />
+			<xs:element name="Amount" type="xs:decimal" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="amount">
+		<xs:annotation>
+			<xs:documentation>
+				An amount.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Currency" type="currency" />
+			<xs:element name="Amount" type="xs:decimal" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="commissionamount">
+		<xs:annotation>
+			<xs:documentation>
+				An amount.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Currency" type="currency" />
+			<xs:element name="Amount" type="xs:decimal" />
+			<xs:element name="CommissionType" type="commissiontype"
+				minOccurs="0" />
+			<xs:element name="SoftType" type="softtype" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="securityReferenceType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Type" use="required">
+					<xs:simpleType>
+						<xs:annotation>
+							<xs:documentation>
+								The type of a security reference.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="ISIN" />
+							<xs:enumeration value="CUSIP" />
+							<xs:enumeration value="SEDOL" />
+							<!-- Not sure what this should be called -->
+							<xs:enumeration value="Ticker" />
+							<xs:enumeration value="Other" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="quantityType">
+		<xs:simpleContent>
+			<xs:extension base="positiveDecimal">
+				<xs:attribute name="Type" use="required">
+					<xs:simpleType>
+						<xs:annotation>
+							<xs:documentation>
+								The type of the quantity.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Face" />
+							<xs:enumeration value="Unit" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+
+	<xs:simpleType name="reference">
+		<xs:annotation>
+			<xs:documentation>
+				An OMS reference.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="16" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="buySell">
+		<xs:annotation>
+			<xs:documentation>
+				Whether buying or selling the security.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Buy" />
+			<xs:enumeration value="Sell" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="longShort">
+		<xs:annotation>
+			<xs:documentation>
+				Whether the trade is going Long or Short.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Long" />
+			<xs:enumeration value="Short" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ConfVenue">
+		<xs:annotation>
+			<xs:documentation>
+				Confirmation venue of trade.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="International" />
+			<xs:enumeration value="US Domestic" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="yesNo">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Yes" />
+			<xs:enumeration value="No" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="bargainCondition">
+		<xs:annotation>
+			<xs:documentation>
+				The bargain condition of the trade.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CumDividend" />
+			<xs:enumeration value="ExDividend" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="positiveDecimal">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.0" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="currency">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="3" />
+			<xs:maxLength value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="optiontype">
+		<xs:annotation>
+			<xs:documentation>
+				Put or Call
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Put" />
+			<xs:enumeration value="Call" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="deliverytype">
+		<xs:annotation>
+			<xs:documentation>
+				Type of delivery
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Cash" />
+			<xs:enumeration value="Physical" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="repurchasetype">
+		<xs:annotation>
+			<xs:documentation>
+				Type of repurchase
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Repo" />
+			<xs:enumeration value="Reverse Repo" />
+			<xs:enumeration value="Sell/Buy Back" />
+			<xs:enumeration value="Buy/Sell Back" />
+			<xs:enumeration value="Participation" />
+			<xs:enumeration value="Sec Lending" />
+			<xs:enumeration value="Sec Borrowing" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="deliverymethod">
+		<xs:annotation>
+			<xs:documentation>
+				Type of repurchase delivery method
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Free" />
+			<xs:enumeration value="Book Entry" />
+			<xs:enumeration value="Physical" />
+			<xs:enumeration value="DVP/RVP" />
+			<xs:enumeration value="Cash" />
+			<xs:enumeration value="Hold-In-Custody" />
+			<xs:enumeration value="Tri-Party" />
+			<xs:enumeration value="Quad-Party" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="leg">
+		<xs:annotation>
+			<xs:documentation>
+				Type of repurchase leg
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Open Leg" />
+			<xs:enumeration value="Close Leg" />
+			<xs:enumeration value="Both Legs" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ratetype">
+		<xs:annotation>
+			<xs:documentation>
+				Type of repurchase rate type
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Fixed" />
+			<xs:enumeration value="Variable" />
+			<xs:enumeration value="Unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="confirmpurpose">
+		<xs:annotation>
+			<xs:documentation>
+				Type of repurchase confirm purpose
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Original" />
+			<xs:enumeration value="Substitution" />
+			<xs:enumeration value="Margin-Re-Price/Cash Call" />
+			<xs:enumeration value="Margin-Re-Price/Collateral Call" />
+			<xs:enumeration value="Rollover" />
+			<xs:enumeration value="Other" />
+			<xs:enumeration value="Not Specified" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="commissiontype">
+		<xs:annotation>
+			<xs:documentation>
+				Type of commission
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Hard" />
+			<xs:enumeration value="Soft" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="softtype">
+		<xs:annotation>
+			<xs:documentation>
+				Type of soft commission
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Introduced Brokerage" />
+			<xs:enumeration value="Commission Recapture" />
+			<xs:enumeration value="Share Arrangement" />
+			<xs:enumeration value="Independent Research" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
