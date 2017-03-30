@@ -7,7 +7,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
-			<plugin>
+			<!--plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
 				<version>2.2</version>
@@ -23,10 +23,10 @@
 					<sources>
 						<source>src/main/resources/import.xsd</source>
 					</sources>
-					<!-- The package of your generated sources -->
+					<!- - The package of your generated sources - ->
 					<packageName>com.salerio.idm.system.oms.jaxb.imp</packageName>
 				</configuration>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
@@ -38,21 +38,31 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<extension>true</extension>
 					<args>
 						<arg>-Xannotate</arg>
 					</args>
+					<generatePackage>com.salerio.idm.system.oms.jaxb.imp</generatePackage>
 					<plugins>
 						<plugin>
 							<groupId>org.jvnet.jaxb2_commons</groupId>
 							<artifactId>jaxb2-basics-annotate</artifactId>
+							<version>1.0.2</version>
 						</plugin>
 						<!-- Artifact with custom annotations -->
-						<plugin>
+						<!--plugin>
 							<groupId>FileProcessor</groupId>
 							<artifactId>FileProcessor</artifactId>
-						</plugin>
+						</plugin-->
 					</plugins>
 				</configuration>
 			</plugin>

@@ -1,6 +1,8 @@
 <!-- <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"> -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	jaxb:version="2.1"
+	jaxb:extensionBindingPrefixes="annox"
 	xmlns:annox="http://annox.dev.java.net" >
 
 	<xs:element name="Trade">
@@ -151,8 +153,7 @@
 						<xs:element name="Type" type="xs:string">
 							<xs:annotation>
 								<xs:appinfo>
-									<annox:annotate>ddddedd
-									</annox:annotate>
+									<annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>
 								</xs:appinfo>
 							</xs:annotation>
 						</xs:element>
