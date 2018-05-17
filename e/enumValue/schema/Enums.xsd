@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+  jaxb:version="2.0"
+  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:annox="http://annox.dev.java.net"
+  jaxb:extensionBindingPrefixes="xjc annox">
+
+  <xs:simpleType name="MyEnum">
+      <xs:annotation>
+          <xs:appinfo>
+              <annox:annotateEnumValueMethod>@com.fasterxml.jackson.annotation.JsonValue</annox:annotateEnumValueMethod>
+          </xs:appinfo>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="One"/>
+          <xs:enumeration value="Two"/>
+          <xs:enumeration value="Three"/>
+      </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
