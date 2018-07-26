@@ -1,0 +1,16 @@
+<jaxb:bindings
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:annox="http://annox.dev.java.net"
+        jaxb:extensionBindingPrefixes="annox"
+        jaxb:version="2.1">
+
+    jaxb:extensionBindingPrefixes="annox"
+
+    <jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
+        <jaxb:bindings node="xsd:complexType[@name='List']/xsd:sequence/xsd:any">
+            <annox:annotate>@java.lang.Deprecated</annox:annotate>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+</jaxb:bindings>
