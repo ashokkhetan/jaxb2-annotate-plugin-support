@@ -8,9 +8,9 @@
     jaxb:extensionBindingPrefixes="annox"
 
     <jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
-        <jaxb:bindings node="xsd:complexType[@name='List']/xsd:sequence/xsd:any">
+        <!--jaxb:bindings node="xsd:complexType[@name='List']/xsd:sequence/xsd:any">
             <annox:annotate>@java.lang.Deprecated</annox:annotate>
-        </jaxb:bindings>
+        </jaxb:bindings-->
     </jaxb:bindings>
 
 </jaxb:bindings>
