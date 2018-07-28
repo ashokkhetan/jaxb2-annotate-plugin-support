@@ -1,1 +1,3 @@
-<annox:annotate xmlns:annox="http://annox.dev.java.net">@java.lang.Deprecated(since="now")</annox:annotate>
+<annox:annotate xmlns:annox="http://annox.dev.java.net" target="field">
+	@javax.xml.bind.annotation.XmlAnyElement(lax = false)
+</annox:annotate>
