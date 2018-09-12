@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
+    "
+>
+    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>jaxb2-annotate-plugin-support</groupId>
+    <artifactId>base-dependent</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.14.0</version>
+                <executions>
+                    <execution>
+                        <id>base</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${basedir}/src/main/resources/xsd</schemaDirectory>
+                            <schemaIncludes>
+                                <include>base.xsd</include>
+                            </schemaIncludes>
+                            <generatePackage>org.test.base</generatePackage>
+                            <encoding>UTF-8</encoding>
+                            <extension>true</extension>
+                            <episode>true</episode>
+                            <episodeFile>${basedir}/target/generated-sources/xjc/META-INF/base.xjb</episodeFile>
+                            <args>
+                                <arg>-Xannotate</arg>
+                            </args>
+                            <plugins>
+                                <dependency>
+                                    <groupId>javax.validation</groupId>
+                                    <artifactId>validation-api</artifactId>
+                                </dependency>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics-annotate</artifactId>
+                                    <version>1.1.0</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                    </execution>
+                    
+                    <execution>
+                        <id>dependent</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${basedir}/src/main/resources/xsd</schemaDirectory>
+                            <schemaIncludes>
+                                <include>dependent.xsd</include>
+                            </schemaIncludes>
+                            <generatePackage>org.test.dependent</generatePackage>
+                            <encoding>UTF-8</encoding>
+                            <bindings>
+                                <binding>
+                                    <fileset>
+                                        <directory>${basedir}/target/generated-sources/xjc/META-INF</directory>
+                                        <includes>
+                                            <include>*.xjb</include>
+                                        </includes>                                    
+                                    </fileset>
+                                </binding>
+                            </bindings>
+                            <extension>true</extension>
+                            <episode>true</episode>
+                            <episodeFile>${basedir}/target/generated-sources/xjc/META-INF/dependent.xjb</episodeFile>
+                            <args>
+                                <arg>-Xannotate</arg>
+                            </args>
+                            <plugins>
+                                <dependency>
+                                    <groupId>javax.validation</groupId>
+                                    <artifactId>validation-api</artifactId>
+                                </dependency>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics-annotate</artifactId>
+                                    <version>1.1.0</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                    </execution>
+
+                </executions>                
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+    </dependencies>
+    
+</project>
